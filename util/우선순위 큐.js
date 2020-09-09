@@ -10,9 +10,7 @@ class PriorityQueue {
     }
 
     _swap(a, b) {
-        const tmp = this._heap[a];
-        this._heap[a] = this._heap[b];
-        this._heap[b] = tmp;
+        [this._heap[a], this._heap[b]] = [this._heap[b], this._heap[a]];
     }
 
     /**
