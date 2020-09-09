@@ -91,15 +91,23 @@ function solution(jobs) {
     let total = 0;
     let now = 0;
     const pq = new PriorityQueue();
+
+    //소요 시간이 짧은 작업이 높은 우선순위를 갖도록 설정
     pq.compare = (a, b) => a[1] < b[1];
-    jobs.sort((a, b) => a[0] < b[0]);
+    //작업은 요청 시점 순으로 정렬
+    jobs.sort((a, b) => a[0] - b[0]);
+
     while (jobs.length > 0 || pq.size > 0) {
+        //큐가 비어있을때 다음 작업을 '꼭' 넣기 위한 작업
+        //현재 3ms, 가장 빠른 작업 500ms => 현재를 500ms로 변경
         if (pq.size === 0 && jobs.length > 0) {
             now = Math.max(now, jobs[0][0]);
         }
+        //남아있는 작업 중 요청이 들어온 작업들을 큐에 넣는다
         while (jobs.length > 0 && jobs[0][0] <= now) {
             pq.add(jobs.shift());
         }
+        //소요 시간이 가장 짧은 작업 실행
         const [req, time] = pq.poll();
         now += time;
         total += now - req;
