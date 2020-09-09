@@ -26,16 +26,13 @@ class PriorityQueue {
             this._heap[++this.size] = e;
         }
 
-        let node = this.size;
-        let parent = Math.floor(node / 2);
+        let cur = this.size;
+        let parent = Math.floor(cur / 2);
 
-        while (
-            node > 1 &&
-            this._compare(this._heap[node], this._heap[parent])
-        ) {
-            this._swap(node, parent);
-            node = parent;
-            parent = Math.floor(node / 2);
+        while (cur > 1 && this._compare(this._heap[cur], this._heap[parent])) {
+            this._swap(cur, parent);
+            cur = parent;
+            parent = Math.floor(cur / 2);
         }
     }
 
@@ -48,19 +45,19 @@ class PriorityQueue {
 
         const ret = this._heap[1];
         this._heap[1] = this._heap[this.size--];
-        let node = 1;
+        let cur = 1;
         let leftChild, rightChild;
         let leftComp, rightComp;
 
         while (true) {
-            leftChild = node * 2;
+            leftChild = cur * 2;
             rightChild = leftChild + 1;
             leftComp =
                 leftChild <= this.size &&
-                this._compare(this._heap[leftChild], this._heap[node]);
+                this._compare(this._heap[leftChild], this._heap[cur]);
             rightComp =
                 rightChild <= this.size &&
-                this._compare(this._heap[rightChild], this._heap[node]);
+                this._compare(this._heap[rightChild], this._heap[cur]);
 
             if (leftComp && rightComp) {
                 if (
@@ -73,11 +70,11 @@ class PriorityQueue {
             }
 
             if (leftComp) {
-                this._swap(node, leftChild);
-                node = leftChild;
+                this._swap(cur, leftChild);
+                cur = leftChild;
             } else if (rightComp) {
-                this._swap(node, rightChild);
-                node = rightChild;
+                this._swap(cur, rightChild);
+                cur = rightChild;
             } else {
                 break;
             }
